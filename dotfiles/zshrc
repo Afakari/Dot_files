@@ -115,4 +115,4 @@ git_prompt_info() {
 }
 
 PS1='%F{%(#.cyan.green)}┌──${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}(%B%F{%(#.magenta.yellow)}%n㉿%m%b%F{%(#.cyan.green)})-[%B%F{blue}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.cyan.green)}]%F{reset} $(git_prompt_info)
-%F{green}└─%B%(#.%F{magenta}#.%F{purple}$)%b%F{reset}%F{yellow}'
+%F{green}└─%B%(#.%F{magenta}#.%F{purple}$)%b%F{reset}'
