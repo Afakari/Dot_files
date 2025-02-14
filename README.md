@@ -10,14 +10,13 @@ Installing my popular tools and some control over stuff
 - **Prerequisite Checks**: Ensures the script is run as root and has an internet connection.
 - **Iranian Repositories**: Configures APT repositories for faster package downloads in Iran.
 - **DNS Setup**: Configures DNS servers for better connectivity.
-- **Package Installation**: Installs essential packages like `vim`, `zsh`, `tmux`, `git`, `wget`, `python3`, and more.
+- **Package Installation**: Installs essential packages.
 - **Optional Installations**:
     - Visual Studio Code
     - Google Chrome
     - Docker
     - Go (Golang)
-    - Warp Plus (a CLI tool)
-- **Configuration Files**: Downloads and applies custom configuration files for `zsh`, `tmux`, and `kitty`.
+- **Configuration Files**: Downloads and applies custom configuration files.
 - **Argument Support**: Allows skipping specific installations using command-line flags.
 
 ---
