@@ -6,11 +6,16 @@ set -e
 CONFIG_REPO="https://github.com/afakari/dotfiles.git"
 CONFIG_DIR="$HOME/configs_repo"
 USER_HOME=$(eval echo ~$(logname))
+WARP_PLUS_URL="https://github.com/bepass-org/warp-plus/releases/download/v1.2.5/warp-plus_linux-amd64.zip"
+WARP_PLUS_ZIP="/tmp/warp-plus.zip"
+WARP_PLUS_DIR="/tmp/warp-plus"
 
 # Argument flags
 NO_DNS=false
 NO_GOLANG=false
 NO_DOCKER=false
+NO_VSCODE=false
+NO_CHROME=false
 
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
@@ -25,6 +30,14 @@ while [[ $# -gt 0 ]]; do
             ;;
         --no-docker)
             NO_DOCKER=true
+            shift
+            ;;
+        --no-vscode)
+            NO_VSCODE=true
+            shift
+            ;;
+        --no-chrome)
+            NO_CHROME=true
             shift
             ;;
         *)
@@ -192,6 +205,28 @@ copy_config_files() {
     chown -R $(logname):$(logname) $USER_HOME
 }
 
+install_warp() {
+    echo "Setting up Warp..."
+    if ! command -v warp &> /dev/null; then
+        echo "Downloading Warp Plus..."
+        wget -q $WARP_PLUS_URL -O $WARP_PLUS_ZIP
+
+        echo "Extracting Warp Plus..."
+        mkdir -p $WARP_PLUS_DIR
+        unzip -q $WARP_PLUS_ZIP -d $WARP_PLUS_DIR
+
+        echo "Installing Warp..."
+        mv $WARP_PLUS_DIR/warp-plus /usr/local/bin/warp
+
+        echo "Cleaning up..."
+        rm -rf $WARP_PLUS_ZIP $WARP_PLUS_DIR
+
+        echo "Warp installed successfully. You can now use the 'warp' command."
+    else
+        echo "Warp is already installed. Skipping installation."
+    fi
+}
+
 echo "Setting up your environment..."
 
 check_prerequisites
@@ -203,21 +238,22 @@ for package in "${packages[@]}"; do
     install_package $package
 done
 
-if ! command -v code &> /dev/null; then
+if ! $NO_VSCODE && ! command -v code &> /dev/null; then
     install_deb_package "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
 else
-    echo "Visual Studio Code is already installed. Skipping installation."
+    echo "Visual Studio Code installation skipped or already installed."
 fi
 
-if ! command -v google-chrome &> /dev/null; then
+if ! $NO_CHROME && ! command -v google-chrome &> /dev/null; then
     install_deb_package "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 else
-    echo "Google Chrome is already installed. Skipping installation."
+    echo "Google Chrome installation skipped or already installed."
 fi
 
 setup_oh_my_zsh
 install_golang
 install_docker
+install_warp
 copy_config_files
 
 echo "Environment setup complete! You may need to log out and log back in for changes to take effect."
