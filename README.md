@@ -1,7 +1,3 @@
-Here’s a **README.md** file for your script. It provides a clear overview of what the script does, how to use it, and what prerequisites are required. You can customize it further if needed.
-
----
-
 # Environment Setup Script
 
 This script automates the setup of a development environment on Linux systems (Ubuntu/Debian). It installs essential packages, configures DNS, sets up Iranian repositories, and installs tools like Visual Studio Code, Google Chrome, Docker, Go, and more. It also includes optional features like setting up Warp Plus and skipping specific installations using command-line arguments.
